@@ -1,0 +1,46 @@
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Archivos de compilación Java
+*.class
+*.args
+
+
+# virtual machine crash logs
+hs_err_pid*
+replay_pid*
+
+# NetBeans specific files
+dist/lib
+nbproject/private/
+build/
+nbbuild/
+nbdist/
+.nb-gradle/
+.nb-gradle-properties
+nbactions.xml
+nb-configuration.xml
+target/
+
+# NetBeans cache and temp files
+.nbattrs
+.nbgrader
+
+# Archivos temporales
+*.tmp
+*.temp

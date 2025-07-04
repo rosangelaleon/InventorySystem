@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 9.0.0.final using JasperReports Library version 6.21.0-4f56c4f36cd19e17675219a9ac4692d5f0f13b06  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReportesStock" pageWidth="650" pageHeight="300" columnWidth="455" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1b0feb94-8cdb-4bcf-87ba-6f8f85179711">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="InventorySystem"/>
+	<parameter name="FechaDesdeParam" class="java.sql.Date"/>
+	<parameter name="FechaHastaParam" class="java.sql.Date"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+    aj.id AS ID_AJUSTE,
+    DATE_FORMAT(aj.fecha, '%d/%m/%Y %H:%i:%s') AS FECHA,
+    aj.motivo AS MOTIVO,
+    d.deposito AS DEPOSITO,
+    p.producto AS PRODUCTO,
+    ad.cantidad_actual AS CANTIDAD_ACTUAL,
+    ad.cantidad_ajuste AS CANTIDAD_AJUSTADA
+FROM
+    AJUSTES_STOCK aj
+JOIN
+    DEPOSITOS d ON aj.deposito_id = d.id
+JOIN
+    AJUSTES_STOCK_DETALLE ad ON aj.id = ad.ajuste_id
+JOIN
+    PRODUCTOS_DETALLE pd ON ad.productodetalle_id = pd.codigobarras
+JOIN
+    PRODUCTOS p ON pd.cabecera_id = p.id
+WHERE
+    (DATE(aj.fecha) >= COALESCE($P{FechaDesdeParam}, DATE(aj.fecha)) OR $P{FechaDesdeParam} IS NULL)
+    AND
+    (DATE(aj.fecha) <= COALESCE($P{FechaHastaParam}, DATE(aj.fecha)) OR $P{FechaHastaParam} IS NULL)
+ORDER BY
+    aj.fecha]]>
+	</queryString>
+	<field name="ID_AJUSTE" class="java.lang.Integer"/>
+	<field name="FECHA" class="java.lang.String"/>
+	<field name="MOTIVO" class="java.lang.String"/>
+	<field name="DEPOSITO" class="java.lang.String"/>
+	<field name="PRODUCTO" class="java.lang.String"/>
+	<field name="CANTIDAD_ACTUAL" class="java.lang.Integer"/>
+	<field name="CANTIDAD_AJUSTADA" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="68" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="610" height="68" backcolor="#FFFFFF" uuid="6cf9faa5-ec39-46c6-bd74-64475fbf4e60">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Cooper Black" size="24"/>
+				</textElement>
+				<text><![CDATA[Lista Ajuste Stock]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="370" y="0" width="230" height="43" uuid="604a112f-bafb-4716-9461-a363a9650aa4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Yu Gothic UI Semibold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fecha: " + new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()) + "\nHora: " + new java.text.SimpleDateFormat("HH:mm:ss").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="43" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="40" height="43" backcolor="#BDD9FC" uuid="ceb30110-ffe0-4693-a1fa-17c6b7da6d4a"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Id Ajuste]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="251" y="0" width="99" height="43" backcolor="#BDD9FC" uuid="e3a35621-b753-475b-b3f3-e311f2898267"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Deposito]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="350" y="0" width="100" height="43" backcolor="#BDD9FC" uuid="fc30c89d-5f5f-4776-b9a7-08fb0b2d31d5"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="450" y="0" width="80" height="43" backcolor="#BDD9FC" uuid="5cfef719-c9ee-4e5a-8130-9974ff5bfae9"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Cantidad Actual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="-20" width="240" height="20" forecolor="#DE2926" uuid="b921cd89-9c43-4d09-bc2e-bd8aab5d3162"/>
+				<box>
+					<pen lineWidth="0.0" lineColor="#FAF7F7"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Microsoft Himalaya" size="18"/>
+				</textElement>
+				<text><![CDATA[Inventory System]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="530" y="0" width="80" height="43" backcolor="#BDD9FC" uuid="82a8a463-890e-4178-8149-f60b0edd7468"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Cantidad Ajustada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="40" y="0" width="100" height="43" backcolor="#BDD9FC" uuid="ca7150fe-85ec-4c69-907d-934e937496c0"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="140" y="0" width="111" height="43" backcolor="#BDD9FC" uuid="fe6a3e2e-d371-4190-98a4-3bc759d2a82d"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Motivo]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="35" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="0" y="0" width="40" height="35" uuid="56440456-c4c8-4f12-b479-8b69576158f1"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ID_AJUSTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="0" width="100" height="35" uuid="2e8de53b-708f-4158-8a38-154f954c2cc6"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{FECHA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="251" y="0" width="99" height="35" uuid="e344e0ea-a72a-4366-b6c7-d726caab0a0b"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DEPOSITO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="0" width="100" height="35" uuid="67d8cd88-df61-4a3d-8135-8fabf5373f72"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{PRODUCTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="0" width="111" height="35" uuid="ec95c1d9-855a-42c8-94c2-4cb9a792b37b"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{MOTIVO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="0" width="80" height="35" uuid="70ec977f-674f-4602-81b6-3860fff4cfe3"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CANTIDAD_ACTUAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="530" y="0" width="80" height="35" uuid="1030ac67-963f-478b-882a-07886301b245"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CANTIDAD_AJUSTADA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
